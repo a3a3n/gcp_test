@@ -11,4 +11,4 @@ steps:
   - '-c'
   - |
     set -x && \
-    -c --command='/bin/sh /var/www/html/gcp_test/pull.sh'
+    --command='/bin/sh /var/www/html/gcp_test/pull.sh'
