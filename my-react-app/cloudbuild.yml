@@ -1,5 +1,5 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: '/bin/bash'
-    args:  ['-c',"sudo -s",'/var/www/html/pull.sh']
+    entrypoint: '/bin/sh'
+    args:  ['/var/www/html/pull.sh']
 
