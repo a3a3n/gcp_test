@@ -1,14 +1,5 @@
-# steps:
-#   - name: 'gcr.io/cloud-builders/gcloud'
-#     entrypoint: '/bin/sh'
-#     args:  ['/var/www/html/pull.sh']
-
 steps:
-- name: "gcr.io/cloud-builders/gcloud"
-  id: Update staging server
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-    set -x && \
-    --command='/bin/sh /var/www/html/gcp_test/pull.sh'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: '/bin/sh'
+    args:  ['/var/www/html/pull.sh']
+
