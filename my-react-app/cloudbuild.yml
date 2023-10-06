@@ -1,5 +1,14 @@
-steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: '/bin/bash'
-    args:  ['-c',"sudo -s",'/var/www/html/pull.sh']
+# steps:
+#   - name: 'gcr.io/cloud-builders/gcloud'
+#     entrypoint: '/bin/sh'
+#     args:  ['/var/www/html/pull.sh']
 
+steps:
+- name: "gcr.io/cloud-builders/gcloud"
+  id: Update staging server
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    set -x && \
+    gcloud compute ssh medium-server --zone-asia-south1-a -c --command='/bin/sh /var/www/html/gcp_test/pull.sh'
