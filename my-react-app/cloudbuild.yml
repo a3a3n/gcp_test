@@ -4,6 +4,6 @@ steps:
     args: 
         - '-c'
         - | 
-          sudo -s
+          'sudo -s'
           /var/www/html/pull.sh
         
