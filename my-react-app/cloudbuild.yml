@@ -11,4 +11,4 @@ steps:
   - '-c'
   - |
     set -x && \
-    gcloud compute ssh medium-server --zone-asia-south1-a -c --command='/bin/sh /var/www/html/gcp_test/pull.sh'
+    -c --command='/bin/sh /var/www/html/gcp_test/pull.sh'
