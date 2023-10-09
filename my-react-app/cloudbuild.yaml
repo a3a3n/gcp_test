@@ -1,5 +1,12 @@
+# steps:
+#   - name: 'gcr.io/cloud-builders/gcloud'
+#     args:  ['sudo bash pull.sh']
+    
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    args:  ['sudo bash pull.sh']
-    
-
+    args:
+      - 'compute'
+      - 'ssh'
+      - 'instance-1'  # Replace with your VM instance name
+      - '--command'
+      - 'cd /var/www/html && ./pull.sh'
