@@ -8,5 +8,6 @@ steps:
       - 'compute'
       - 'ssh'
       - 'instance-1'  # Replace with your VM instance name
+      - '--zone=asia-south1-a'
       - '--command'
       - 'cd /var/www/html && ./pull.sh'
