@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: '/bin/sh'
-    args:  ['/var/www/html','sudo bash pull.sh']
+    args:  ['sudo bash pull.sh']
     
 
