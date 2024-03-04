@@ -1,11 +1,7 @@
 steps:
-  # Fetch the Dockerfile from the source code repository
-  - name: 'gcr.io/cloud-builders/git'
-    args: ['clone', 'REPOSITORY_URL', 'workspace']
-
   # Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG', 'workspace/PATH_TO_DOCKERFILE']
+    args: ['build', '-t', 'asia-south1-docker.pkg.dev/', 'workspace/']
 
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
