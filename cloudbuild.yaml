@@ -1,13 +1,23 @@
-# steps:
-#   - name: 'gcr.io/cloud-builders/gcloud'
-#     args:  ['sudo bash pull.sh']
-    
 steps:
+  # Fetch the Dockerfile from the source code repository
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['clone', 'REPOSITORY_URL', 'workspace']
+
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG', 'workspace/PATH_TO_DOCKERFILE']
+
+  # Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG']
+
+  # SSH into the VM and run the Docker container
   - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
-      - 'compute'
-      - 'ssh'
-      - 'instance-1'  # Replace with your VM instance name
-      - '--zone=asia-south1-a'
-      - '--command'
-      - 'cd /var/www/html && ./pull.sh'
+      - '-c'
+      - |
+        gcloud compute ssh USERNAME@INSTANCE_NAME --zone ZONE --command "docker run -d -p HOST_PORT:CONTAINER_PORT asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG"
+
+images:
+  - 'asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG'
