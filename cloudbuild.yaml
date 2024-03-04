@@ -1,19 +1,23 @@
 steps:
-  # Build the Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/', 'workspace/']
+  # Copy the service account key to the workspace
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['cp', 'gs://pucket-123/key/project-123-416205-f4c65ed9fb52.json', '/workspace/project-123-416205-f4c65ed9fb52.json']
 
-  # Push the Docker image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG']
-
-  # SSH into the VM and run the Docker container
+  # Authenticate, set project, and log in to Docker
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        gcloud compute ssh USERNAME@INSTANCE_NAME --zone ZONE --command "docker run -d -p HOST_PORT:CONTAINER_PORT asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG"
+        # Authenticate with service account key
+        gcloud auth activate-service-account --key-file=/workspace/project-123-416205-f4c65ed9fb52.json
+        
+        # Set default project
+        gcloud config set project project-123-416205
+        
+        # Log in to Docker with service account for Artifact Registry
+        docker login -u _json_key --password-stdin https://asia-south1-docker.pkg.dev < /workspace/project-123-416205-f4c65ed9fb52.json
 
-images:
-  - 'asia-south1-docker.pkg.dev/PROJECT_ID/IMAGE_NAME:TAG'
+  # Build the Docker image using Dockerfile from the source repository
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'asia-south1-docker.pkg.dev/project-123-416205/artifact-123', '.']
